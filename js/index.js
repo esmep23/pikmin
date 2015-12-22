@@ -15,12 +15,8 @@ $( document ).ready(function() {
     $('#info .contenido').css('height',$(window).height()-150);
     $('section').hide();
     pantallaActual = $('#home');
+    pantallaActual.show();
     $('header form').hide();
-
-
-    setTimeout(function(){
-        $('#home').show();
-    }, 100);
 
     //TweenLite.to($('header form'), 1, { alpha:0 });
     
