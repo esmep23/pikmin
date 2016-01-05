@@ -10,8 +10,11 @@ var anchoPantalla = $(window).width();
 var onMenu = false; //toggle
 var onSearch = false; //toggle
 
+var direccion = "http://pocket.ec/dev/beach_593/";
+
 $( document ).ready(function() {
     $('section').css('height',$(window).height());
+    $('#busqueda .contenido').css('height',$(window).height()-150);
     $('#info .contenido').css('height',$(window).height()-150);
     $('section').hide();
     pantallaActual = $('#home');
@@ -44,6 +47,8 @@ $( document ).ready(function() {
     /*********************************************************************************************/
     /*********************************************************************************************/
 
+
+    getPlayas();
 
 }); // document ready
 
@@ -101,4 +106,163 @@ function toggle_visibility_search() {
         $('header form').hide();
        //TweenLite.to($('header form'), 1, { alpha:0 });
     } 
+}
+
+/************************************************************************************************/
+/************************************************************************************************/
+/************************************************************************************************/
+
+/****************************************************************/
+/*   FUNCIONES   */
+/****************************************************************/
+
+
+function getPlayas() {  
+    $.ajax({
+      url: direccion+'actions/593_getInfo.php',
+      type: "POST",
+      cache: false,
+      dataType: "json",
+      success: function(response){  
+        $('#busqueda .contenido').empty();
+        $('#busqueda .contenido').css('overflow-y','scroll');
+        if(response!=null && response!='' && response!='[]'){ 
+          $.each(response,function(key,value){ 
+            id_playa = value.id_playa;
+            nombre = value.nombre;
+            slug = value.slug;
+            pais = value.pais;
+            nombrePais = value.nombre_pais;
+            ciudad = value.ciudad;
+            nombreCiudad = value.nombre_ciudad;
+            provincia  = value.provincia ;
+            nombreProvincia = value.nombre_provincia;
+            calle = value.calle;
+            mapa = value.mapa;
+            status = value.status;
+            descripcion = value.descripcion;
+            foto = value.foto;
+            $('#busqueda .contenido').append('<article><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="item item-actividades"><i class="fa fa-car"></i></div><div class="item item-actividades"><i class="fa fa-bug"></i></div><div class="item item-actividades"><i class="fa fa-ambulance"></i></div><div class="item item-actividades"><i class="fa fa-money"></i></div><div class="item item-actividades"><i class="fa fa-twitch"></i></div><div class="item item-actividades"><i class="fa fa-rocket"></i></div><h5>Servicios</h5><div class="item item-servicios"><i class="fa fa-tree"></i></div><div class="item item-servicios"><i class="fa fa-university"></i></div><div class="item item-servicios"><i class="fa fa-paper-plane"></i></div><div class="item item-servicios"><i class="fa fa-shopping-basket"></i></div><div class="item item-servicios"><i class="fa fa-tint"></i></div><div class="item item-servicios"><i class="fa fa-gavel"></i></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
+            
+          });
+        }              
+      },
+      error : function(error){     
+          //alert(error);
+      }
+    });     
+}
+
+
+
+function cargoDetalle(idPlaya){
+    //cambio pantalla
+    cambioPantalla($('#info'));
+    
+
+    var datos ={
+    'playa': idPlaya
+    }
+
+    $.ajax({
+      url: direccion+'actions/593_getInfobyID.php',
+      type: "POST",
+      cache: false,
+      dataType: "json",
+      data: datos,
+      success: function(response){  
+        $('#busqueda .contenido').empty();
+        $('#busqueda .contenido').css('overflow-y','scroll');
+        if(response!=null && response!='' && response!='[]'){ 
+          $.each(response,function(key,value){ 
+            id_playa = value.id_playa;
+            nombre = value.nombre;
+            slug = value.slug;
+            pais = value.pais;
+            nombrePais = value.nombre_pais;
+            ciudad = value.ciudad;
+            nombreCiudad = value.nombre_ciudad;
+            provincia  = value.provincia ;
+            nombreProvincia = value.nombre_provincia;
+            calle = value.calle;
+            mapa = value.mapa;
+            status = value.status;
+            descripcion = value.descripcion;
+            foto = value.foto;
+
+            $('#info .resultado > div').empty();
+            $('#info .informacion-lugar').empty();
+
+            $('#info .resultado > div').append(nombre);
+            $('#info .informacion-lugar').append(descripcion);
+
+            cargoActividades(id_playa);
+            cargoServicios(id_playa);
+           // $('#busqueda .contenido').append('<article><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="item item-actividades"><i class="fa fa-car"></i></div><div class="item item-actividades"><i class="fa fa-bug"></i></div><div class="item item-actividades"><i class="fa fa-ambulance"></i></div><div class="item item-actividades"><i class="fa fa-money"></i></div><div class="item item-actividades"><i class="fa fa-twitch"></i></div><div class="item item-actividades"><i class="fa fa-rocket"></i></div><h5>Servicios</h5><div class="item item-servicios"><i class="fa fa-tree"></i></div><div class="item item-servicios"><i class="fa fa-university"></i></div><div class="item item-servicios"><i class="fa fa-paper-plane"></i></div><div class="item item-servicios"><i class="fa fa-shopping-basket"></i></div><div class="item item-servicios"><i class="fa fa-tint"></i></div><div class="item item-servicios"><i class="fa fa-gavel"></i></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
+            
+          });
+        }              
+      },
+      error : function(error){     
+          //alert(error);
+      }
+    });
+}
+
+
+function cargoActividades(id_playa){
+    alert(1);
+    $('#info .mActividades').empty();
+    var datos ={
+    'id_playa': id_playa
+    }
+
+    $.ajax({
+      url: direccion+'actions/593_getActividades.php',
+      type: "POST",
+      cache: false,
+      dataType: "json",
+      data: datos,
+      success: function(response){  
+        if(response!=null && response!='' && response!='[]'){ 
+            $.each(response,function(key,value){ 
+                actividades = value.actividades;
+                nombreActividad = value.nombreActividad;
+                icono = value.icono;
+                $('#info .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
+            });
+        }              
+      },
+      error : function(error){     
+          console.log(error);
+      }
+    });
+}
+function cargoServicios(id_playa){
+    alert(2);
+    $('#info .mServicios').empty();
+    var datos ={
+    'id_playa': id_playa
+    }
+    $.ajax({
+      url: direccion+'actions/593_getServicios.php',
+      type: "POST",
+      cache: false,
+      dataType: "json",
+      data: datos,
+      success: function(response){  
+        if(response!=null && response!='' && response!='[]'){ 
+            $.each(response,function(key,value){ 
+                servicios = value.servicios;
+                nombreServicio = value.nombreServicio;
+                icono = value.icono;
+                
+                $('#info .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
+            });
+        }              
+      },
+      error : function(error){     
+          //alert(error);
+      }
+    });
 }
