@@ -125,7 +125,7 @@ function getPlayas() {
       dataType: "json",
       success: function(response){  
         $('#busqueda .contenido').empty();
-        $('#busqueda .contenido').css('overflow-y','scroll');
+        //$('#busqueda .contenido').css('overflow-y','scroll');
         if(response!=null && response!='' && response!='[]'){ 
           $.each(response,function(key,value){ 
             id_playa = value.id_playa;
@@ -172,8 +172,6 @@ function cargoDetalle(idPlaya){
       data: datos,
       success: function(response){  
         $('#busqueda .contenido').empty();
-        $('#info .resultado > div').empty();
-        $('#info .informacion-lugar').empty();
         $('#busqueda .contenido').css('overflow-y','scroll');
         if(response!=null && response!='' && response!='[]'){ 
           $.each(response,function(key,value){ 
@@ -192,7 +190,8 @@ function cargoDetalle(idPlaya){
             descripcion = value.descripcion;
             foto = value.foto;
 
-            
+            $('#info .resultado > div').empty();
+            $('#info .informacion-lugar').empty();
 
             $('#info .resultado > div').append(nombre);
             $('#info .informacion-lugar').append(descripcion);
