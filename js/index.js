@@ -155,12 +155,9 @@ function getPlayas() {
     });     
 }
 
-
-
 function cargoDetalle(idPlaya){
     //cambio pantalla
     cambioPantalla($('#info'));
-    
 
     var datos ={
     'playa': idPlaya
@@ -211,7 +208,6 @@ function cargoDetalle(idPlaya){
     });
 }
 
-
 function cargoActividades(id_playa){
     $('#info .mActividades').empty();
     var datos ={
@@ -241,6 +237,7 @@ function cargoActividades(id_playa){
       }
     });
 }
+
 function cargoServicios(id_playa){
     $('#info .mServicios').empty();
     var datos ={
@@ -269,4 +266,8 @@ function cargoServicios(id_playa){
           //alert(error);
       }
     });
+}
+
+function search_by_text(argument){
+
 }
