@@ -142,8 +142,10 @@ function getPlayas() {
             status = value.status;
             descripcion = value.descripcion;
             foto = value.foto;
-            $('#busqueda .contenido').append('<article><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="item item-actividades"><i class="fa fa-car"></i></div><div class="item item-actividades"><i class="fa fa-bug"></i></div><div class="item item-actividades"><i class="fa fa-ambulance"></i></div><div class="item item-actividades"><i class="fa fa-money"></i></div><div class="item item-actividades"><i class="fa fa-twitch"></i></div><div class="item item-actividades"><i class="fa fa-rocket"></i></div><h5>Servicios</h5><div class="item item-servicios"><i class="fa fa-tree"></i></div><div class="item item-servicios"><i class="fa fa-university"></i></div><div class="item item-servicios"><i class="fa fa-paper-plane"></i></div><div class="item item-servicios"><i class="fa fa-shopping-basket"></i></div><div class="item item-servicios"><i class="fa fa-tint"></i></div><div class="item item-servicios"><i class="fa fa-gavel"></i></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
-            
+
+            $('#busqueda .contenido').append('<article class="playa-'+id_playa+'"><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="mActividades"></div><h5>Servicios</h5><div class="mServicios"></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
+            cargoActividades(id_playa);
+            cargoServicios(id_playa);            
           });
         }              
       },
@@ -211,7 +213,6 @@ function cargoDetalle(idPlaya){
 
 
 function cargoActividades(id_playa){
-    alert(1);
     $('#info .mActividades').empty();
     var datos ={
     'id_playa': id_playa
@@ -226,9 +227,11 @@ function cargoActividades(id_playa){
       success: function(response){  
         if(response!=null && response!='' && response!='[]'){ 
             $.each(response,function(key,value){ 
+                playa = value.playa;
                 actividades = value.actividades;
                 nombreActividad = value.nombreActividad;
                 icono = value.icono;
+                $('#busqueda .playa-'+playa+' .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
                 $('#info .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
             });
         }              
@@ -239,7 +242,6 @@ function cargoActividades(id_playa){
     });
 }
 function cargoServicios(id_playa){
-    alert(2);
     $('#info .mServicios').empty();
     var datos ={
     'id_playa': id_playa
@@ -253,10 +255,12 @@ function cargoServicios(id_playa){
       success: function(response){  
         if(response!=null && response!='' && response!='[]'){ 
             $.each(response,function(key,value){ 
+                playa = value.playa;
                 servicios = value.servicios;
                 nombreServicio = value.nombreServicio;
                 icono = value.icono;
                 
+                $('#busqueda .playa-'+playa+' .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
                 $('#info .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
             });
         }              
