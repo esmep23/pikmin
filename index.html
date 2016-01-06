@@ -67,15 +67,44 @@
 			<form>
 				<div class="titulo-form"><h4>CREA TU PERFIL</h4></div>
 				<div class="grupo col-md-12">
+
+				<div data-role="content">
+					<button id="chooseFile">Choose file</button>
+					<div class="hiddenfile">
+					  <input type="file"  data-clear-btn="false" name="image" accept="image/*" capture>
+					</div>
+					<div id="preview">
+					</div>
+					<ul id="info" data-role="listview" data-inset="true">
+					</ul>
+		        </div>
+				
 					<div class="takePick col-sm-6 col-xs-6"><i class="fa fa-camera-retro fa-lg"></i></div>
 					<div class="col-sm-6 col-xs-6">
 						<select>
-						  <option value="volvo">Pais</option>
-						  <option value="audi" selected>Paíss</option>
+						  	<option value="0" selected>País</option>
+							<option value="argentina" >Argentina</option>
+							<option value="bolivia" >Bolivia</option>
+							<option value="brasil" >Brasil</option>
+							<option value="chile" >Chile</option>
+							<option value="colombia" >Colombia</option>
+							<option value="ecuador">Ecuador</option>
+							<option value="guyana" >Guyana</option>
+							<option value="paraguay" >Paraguay</option>
+							<option value="peru" >Perú</option>
+							<option value="surinam" >Surinam</option>
+							<option value="uruguay" >Uruguay</option>
+							<option value="venezuela" >Venezuela</option>
 						</select>
 						<select>
-						  <option value="volvo">1966</option>
-						  <option value="audi" selected>2015</option>
+							<option value="2016" selected>2009</option>
+						  	<option value="2016" selected>2010</option>
+						  	<option value="2016" selected>2011</option>
+						  	<option value="2016" selected>2012</option>
+						  	<option value="2016" selected>2013</option>
+						  	<option value="2016" selected>2014</option>
+							<option value="2016" selected>2015</option>
+						  	<option value="2016" selected>2016</option>
 						</select>
 					</div>
 					<input type="text" class="col-sm-12 col-xs-12" placeholder="Nick">
