@@ -69,8 +69,8 @@
 				<div class="grupo col-md-12">
 
 				<div data-role="content">
-					<button id="chooseFile">Choose file</button>
-					<div class="hiddenfile">
+					<!--<button id="chooseFile">Choose file</button>-->
+					<div class="hiddenfile" style="display:none">
 					  <input type="file"  data-clear-btn="false" name="image" accept="image/*" capture>
 					</div>
 					<div id="preview">
@@ -79,7 +79,7 @@
 					</ul>
 		        </div>
 				
-					<div class="takePick col-sm-6 col-xs-6"><i class="fa fa-camera-retro fa-lg"></i></div>
+					<div class="takePick col-sm-6 col-xs-6"><button id="chooseFile"><i class="fa fa-camera-retro fa-lg"></i></button></div>
 					<div class="col-sm-6 col-xs-6">
 						<select>
 						  	<option value="0" selected>País</option>
