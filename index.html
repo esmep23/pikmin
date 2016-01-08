@@ -7,8 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<!-- cdn jquery-->
 	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-	<!-- index.js -->
-	<script type="text/javascript" src="js/index.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.js"></script>
+
 </head>
 <body>
 
@@ -64,26 +64,33 @@
 		</header>
 			
 		<div class="contenido">
-			<form>
+			<form class="cRegistro" id="cRegistro" method="post" action=""  novalidate="novalidate">
 				<div class="titulo-form"><h4>CREA TU PERFIL</h4></div>
 				<div class="grupo col-md-12">
 
 				<div data-role="content">
 					<!--<button id="chooseFile">Choose file</button>-->
 					<div class="hiddenfile" style="display:none">
-					  <input type="file"  data-clear-btn="false" name="image" accept="image/*" capture>
+					  <input type="file"  data-clear-btn="false" name="image" id="image" accept="image/*" capture>
 					</div>
-					<div id="preview">
+					<!--<div id="preview">
 					</div>
 					<ul id="info" data-role="listview" data-inset="true">
-					</ul>
+					</ul>-->
 		        </div>
 				
-					<div class="takePick col-sm-6 col-xs-6"><button id="chooseFile"><i class="fa fa-camera-retro fa-lg"></i></button></div>
+					<div class="takePick col-sm-6 col-xs-6">
+						<button id="chooseFile"><i class="fa fa-camera-retro fa-lg"></i></button>
+						<div id="preview">
+						</div>
+						<ul id="info" data-role="listview" data-inset="true">
+						</ul>
+
+					</div>
 					<div class="col-sm-6 col-xs-6">
-						<select>
-						  	<option value="0" selected>País</option>
-							<option value="argentina" >Argentina</option>
+						<select name="pais" id="pais">
+						  	<option value="">Pais...</option>
+							<option value="argentina">Argentina</option>
 							<option value="bolivia" >Bolivia</option>
 							<option value="brasil" >Brasil</option>
 							<option value="chile" >Chile</option>
@@ -96,28 +103,64 @@
 							<option value="uruguay" >Uruguay</option>
 							<option value="venezuela" >Venezuela</option>
 						</select>
-						<select>
-							<option value="2016" selected>2009</option>
-						  	<option value="2016" selected>2010</option>
-						  	<option value="2016" selected>2011</option>
-						  	<option value="2016" selected>2012</option>
-						  	<option value="2016" selected>2013</option>
-						  	<option value="2016" selected>2014</option>
-							<option value="2016" selected>2015</option>
-						  	<option value="2016" selected>2016</option>
+						<select name="anio" id="anio">
+							<option value="">Año...</option>
+						  	<option value="2016" >2010</option>
+						  	<option value="2016" >2011</option>
+						  	<option value="2016" >2012</option>
+						  	<option value="2016" >2013</option>
+						  	<option value="2016" >2014</option>
+							<option value="2016" >2015</option>
+						  	<option value="2016" >2016</option>
 						</select>
 					</div>
-					<input type="text" class="col-sm-12 col-xs-12" placeholder="Nick">
-					<input type="text" class="col-sm-12 col-xs-12" placeholder="Email">
+
+					<input name="nick" id="nick" type="text" class="col-sm-12 col-xs-12" >
+					<input name="email" id="email" type="text" class="col-sm-12 col-xs-12">
 				</div>
+				
+
+				<input class="submit" type="submit" value="Submit">
+
 			</form>
+			<script type="text/javascript">
+			$( document ).ready(function() {
+				
+			    $("#cRegistro").validate({
+				         rules: {
+				            nick: "required",
+				            pais: "required",
+				            anio: "required",
+				            email: {
+				              required: true,
+				              email: true
+				            }
+				          },
+				          messages: {
+				            nick: "Ingrese su nombre",
+				            pais: "required",
+				            anio: "required",
+				            email: {
+				              required: "Necesitamos un email valido",
+				              email: "Su email debe tener formato valido name@domain.com"
+				            }
+				          },
+				        success: function(form){
+				        	//alert('formulario');
+				        },
+				        submitHandler: function(form) {
+				        	guardoDatos();
+				        }
+				       });
+				});
+				</script>
 			<h4> LOGIN CON</h4>
 			<div class="log_facebook col-sm-6 col-xs-6"><div><i class="fa fa-facebook"></i></div></div>
 			<div class="log_google col-sm-6 col-xs-6"><div><i class="fa fa-google"></i></div></div>
 		</div>
-		<footer>
-			<div class="guarda-registro">GUARDAR</div>
-		</footer>
+		<!--<footer>
+			<div class="guarda-registro" >GUARDAR</div>
+		</footer>-->
 	</section>
 
 <!--
@@ -232,7 +275,7 @@
   | INFO															 
   |================================================================================|
 	-->
-	<section id="info">
+	<section id="_info">
 		<header>
 			<div class="main">
 				<i class="fa fa-bars" onclick="toggle_visibility('menu');"></i>
@@ -306,3 +349,6 @@
 	</section>
 </body>
 </html>
+
+	<!-- index.js -->
+	<script type="text/javascript" src="js/index.js"></script>

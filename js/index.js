@@ -13,9 +13,13 @@ var onSearch = false; //toggle
 var direccion = "http://pocket.ec/dev/beach_593/";
 
 $( document ).ready(function() {
+
+
+    //localStorage.clear();
+
     $('section').css('height',$(window).height());
     $('#busqueda .contenido').css('height',$(window).height()-150);
-    $('#info .contenido').css('height',$(window).height()-150);
+    $('#_info .contenido').css('height',$(window).height()-150);
     $('section').hide();
     pantallaActual = $('#home');
     pantallaActual.show();
@@ -25,7 +29,17 @@ $( document ).ready(function() {
     
     //BOTONES
     $('.boton-entrar').click(function(){
+      var value = localStorage.getItem('token');
+      //alert(value);
+      if(value){
+
+       cambioPantalla($('#busqueda')); 
+
+      }else{
+
         cambioPantalla($('#registro'));
+      }
+
     });
 
     $('.guarda-registro').click(function(){
@@ -33,7 +47,8 @@ $( document ).ready(function() {
     });
 
     $('article').click(function(){
-        cambioPantalla($('#info'));
+
+        cambioPantalla($('#_info'));
     });
 
     $('li[rel]').click(function(){
@@ -54,9 +69,11 @@ $( document ).ready(function() {
     $("input[type=file]").change(function(){
       var file = $("input[type=file]")[0].files[0];            
       $("#preview").empty();
+      $("button#chooseFile").css('display','none');
+      $(".takePick #info").css('display','none');
       displayAsImage3(file, "preview");
       
-      $info = $("#info");
+      $info = $(".takePick #info");
       $info.empty();
       if (file && file.name) {
         $info.append("<li>name:<span>" + file.name + "</span></li>");
@@ -73,6 +90,8 @@ $( document ).ready(function() {
       $info.listview("refresh");
     });
 
+
+
     /*********************************************************************************************/
     /*********************************************************************************************/
 
@@ -83,6 +102,7 @@ $( document ).ready(function() {
 
 
 function cambioPantalla(argument){
+
     if(argument.selector == pantallaActual.selector){
         //alert(1);
     } else {
@@ -153,7 +173,7 @@ function toggle_visibility_search() {
       reader.readAsDataURL(file);
     }
   }
-  
+
 /************************************************************************************************/
 /************************************************************************************************/
 /************************************************************************************************/
@@ -202,9 +222,10 @@ function getPlayas() {
 }
 
 function cargoDetalle(idPlaya){
-    //cambio pantalla
-    cambioPantalla($('#info'));
 
+    
+    //cambio pantalla
+    cambioPantalla($('#_info'));
     var datos ={
     'playa': idPlaya
     }
@@ -235,11 +256,11 @@ function cargoDetalle(idPlaya){
             descripcion = value.descripcion;
             foto = value.foto;
 
-            $('#info .resultado > div').empty();
-            $('#info .informacion-lugar').empty();
+            $('#_info .resultado > div').empty();
+            $('#_info .informacion-lugar').empty();
 
-            $('#info .resultado > div').append(nombre);
-            $('#info .informacion-lugar').append(descripcion);
+            $('#_info .resultado > div').append(nombre);
+            $('#_info .informacion-lugar').append(descripcion);
 
             cargoActividades(id_playa);
             cargoServicios(id_playa);
@@ -255,7 +276,7 @@ function cargoDetalle(idPlaya){
 }
 
 function cargoActividades(id_playa){
-    $('#info .mActividades').empty();
+    $('#_info .mActividades').empty();
     var datos ={
     'id_playa': id_playa
     }
@@ -274,7 +295,7 @@ function cargoActividades(id_playa){
                 nombreActividad = value.nombreActividad;
                 icono = value.icono;
                 $('#busqueda .playa-'+playa+' .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
-                $('#info .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
+                $('#_info .mActividades').append('<div class="item item-actividades"><i class="fa '+icono+'"></i></div>');
             });
         }              
       },
@@ -285,7 +306,7 @@ function cargoActividades(id_playa){
 }
 
 function cargoServicios(id_playa){
-    $('#info .mServicios').empty();
+    $('#_info .mServicios').empty();
     var datos ={
     'id_playa': id_playa
     }
@@ -304,7 +325,7 @@ function cargoServicios(id_playa){
                 icono = value.icono;
                 
                 $('#busqueda .playa-'+playa+' .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
-                $('#info .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
+                $('#_info .mServicios').append('<div class="item item-servicios"><i class="fa '+icono+'"></i></div>');
             });
         }              
       },
@@ -316,4 +337,37 @@ function cargoServicios(id_playa){
 
 function search_by_text(argument){
 
+}
+
+function guardoDatos(){
+  nick = $('#nick').val();
+  email = $('#email').val();
+  pais = $('#pais').val();
+  anio = $('#anio').val();
+  
+  var datos ={
+      'nick': nick,
+      'email': email,
+      'pais': pais,
+      'anio': anio
+    }
+    $.ajax({
+      url: direccion+'actions/guardoRegistro.php',
+      type: "POST",
+      cache: true,
+      dataType: "json",
+      data: datos,
+      success: function(response){  
+        //alert(response); 
+
+        var obj = response;
+        localStorage.setItem('token', obj);
+
+        cambioPantalla($('#busqueda'));
+      },
+      error : function(error){     
+          //alert(error);
+      }
+
+    }); 
 }
