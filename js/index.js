@@ -261,7 +261,8 @@ function cargoDetalle(idPlaya){
             $('#_info .resultado > div').empty();
             $('#_info .informacion-lugar').empty();
 
-            $('#_info .resultado > div').append(nombre+'</div><div onclick="cargoMapa('+mapa+')">VER MAPA');
+            $('#_info .resultado > div').append(nombre);
+            $('#_info .contenido').append('<div onclick="cargoMapa('+mapa+')">VER MAPA</div>');
             $('#_info .informacion-lugar').append(descripcion);
 
             cargoActividades(id_playa);
