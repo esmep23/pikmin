@@ -66,6 +66,7 @@ $( document ).ready(function() {
       e.preventDefault();
       $("input[type=file]").trigger("click");
     });
+
     $("input[type=file]").change(function(){
       var file = $("input[type=file]")[0].files[0];            
       $("#preview").empty();
@@ -108,17 +109,15 @@ function cambioPantalla(argument){
     } else {
         console.log( 'nuevo' + argument.selector );
         console.log( 'actual' + pantallaActual.selector );
-
+        //alert(1);
 
         pantallaActual.hide();
+        //alert(2);
         limpiar(argument);
-        //TweenLite.to(pantallaActual, 0.5, {x:-anchoPantalla, alpha:1, onComplete:limpiar(argument)});
-        argument.show();
-        
-        /*TweenLite.to(argument, 0.0, {x:anchoPantalla, alpha:1, onComplete:function(){ 
-            TweenLite.to(argument, 0.5, {x:0});
 
-        } });*/
+        //alert(3);
+        argument.show();
+        //alert(4);
     }
 }
 
@@ -225,7 +224,7 @@ function cargoDetalle(idPlaya){
 
     
     //cambio pantalla
-    cambioPantalla($('#_info'));
+    
     var datos ={
     'playa': idPlaya
     }
@@ -237,6 +236,9 @@ function cargoDetalle(idPlaya){
       dataType: "json",
       data: datos,
       success: function(response){  
+
+        cambioPantalla($('#_info'));
+
         $('#busqueda .contenido').empty();
         $('#busqueda .contenido').css('overflow-y','scroll');
         if(response!=null && response!='' && response!='[]'){ 
@@ -259,12 +261,13 @@ function cargoDetalle(idPlaya){
             $('#_info .resultado > div').empty();
             $('#_info .informacion-lugar').empty();
 
-            $('#_info .resultado > div').append(nombre);
+            $('#_info .resultado > div').append(nombre+'</div><div onclick="cargoMapa('+mapa+')">VER MAPA');
             $('#_info .informacion-lugar').append(descripcion);
 
             cargoActividades(id_playa);
             cargoServicios(id_playa);
-           // $('#busqueda .contenido').append('<article><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="item item-actividades"><i class="fa fa-car"></i></div><div class="item item-actividades"><i class="fa fa-bug"></i></div><div class="item item-actividades"><i class="fa fa-ambulance"></i></div><div class="item item-actividades"><i class="fa fa-money"></i></div><div class="item item-actividades"><i class="fa fa-twitch"></i></div><div class="item item-actividades"><i class="fa fa-rocket"></i></div><h5>Servicios</h5><div class="item item-servicios"><i class="fa fa-tree"></i></div><div class="item item-servicios"><i class="fa fa-university"></i></div><div class="item item-servicios"><i class="fa fa-paper-plane"></i></div><div class="item item-servicios"><i class="fa fa-shopping-basket"></i></div><div class="item item-servicios"><i class="fa fa-tint"></i></div><div class="item item-servicios"><i class="fa fa-gavel"></i></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
+
+
             
           });
         }              
@@ -335,9 +338,14 @@ function cargoServicios(id_playa){
     });
 }
 
-function search_by_text(argument){
 
+function cargoMapa(argument1, argument2){
+  //alert(argument1 +' - '+argument2);
+  cambioPantalla($('#mapa'));
+  $('#mapa .contenido').empty();
+  $('#mapa .contenido').append('<iframe src = "https://maps.google.com/maps?q='+argument1+','+argument2+'&hl=es;z=8&amp;output=embed" style="width:100%; height: 500px"></iframe>');
 }
+
 
 function guardoDatos(){
   nick = $('#nick').val();
