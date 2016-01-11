@@ -208,7 +208,7 @@ function getPlayas() {
             descripcion = value.descripcion;
             foto = value.foto;
 
-            $('#busqueda .contenido').append('<article class="playa-'+id_playa+'"><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure>'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'<div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="mActividades"></div><h5>Servicios</h5><div class="mServicios"></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
+            $('#busqueda .contenido').append('<article class="playa-'+id_playa+'"><div onclick="cargoDetalle('+id_playa+');"><figure class="col-sm-4 col-xs-4"><figcaption>'+nombre+'</figcaption><img src="img/playa.jpg" /></figure><!--'+nombrePais+' -  '+nombreCiudad+' -  '+nombreProvincia+'--><div class="detalles col-sm-4 col-xs-6"><h5>Actividades</h5><div class="mActividades"></div><h5>Servicios</h5><div class="mServicios"></div></div><div class="rated col-sm-6 col-xs-2"><div class="stars"><i lass="fa fa-star"></i></div><span>25</span></div></div></article>');
             cargoActividades(id_playa);
             cargoServicios(id_playa);            
           });
@@ -262,7 +262,7 @@ function cargoDetalle(idPlaya){
             $('#_info .informacion-lugar').empty();
 
             $('#_info .resultado > div').append(nombre);
-            $('#_info .contenido').append('<div onclick="cargoMapa('+mapa+')">VER MAPA</div>');
+            $('#_info .contenido').append('<div id="goMapa" onclick="cargoMapa('+mapa+')">VER MAPA</div>');
             $('#_info .informacion-lugar').append(descripcion);
 
             cargoActividades(id_playa);
@@ -344,7 +344,7 @@ function cargoMapa(argument1, argument2){
   //alert(argument1 +' - '+argument2);
   cambioPantalla($('#mapa'));
   $('#mapa .contenido').empty();
-  $('#mapa .contenido').append('<iframe src = "https://maps.google.com/maps?q='+argument1+','+argument2+'&hl=es;z=8&amp;output=embed" style="width:100%; height: 500px"></iframe>');
+  $('#mapa .contenido').append('<iframe src = "https://maps.google.com/maps?q='+argument1+','+argument2+'&hl=es;z=8&amp;output=embed" style="height: 500px"></iframe>');
 }
 
 
